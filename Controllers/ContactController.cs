@@ -9,7 +9,7 @@ using CvApi.Models;
 
 namespace CvApi.Controllers
 {
-    [Route("api/contact")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ContactController : ControllerBase
     {
