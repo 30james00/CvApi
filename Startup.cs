@@ -26,7 +26,7 @@ namespace CvApi
             services.AddDbContext<ContactContext>(opt =>
                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contact", Version = "v1" });
