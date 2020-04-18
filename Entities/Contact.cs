@@ -1,4 +1,4 @@
-namespace CvApi.Models
+namespace CvApi.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;

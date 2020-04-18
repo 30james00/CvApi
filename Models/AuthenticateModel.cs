@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CvApi.Models
 {
-    public class Authenticate
+    public class AuthenticateModel
     {
         [Required]
         public string Username { get; set; }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CvApi.Entities;
 using CvApi.Models;
 
 namespace CvApi.Helpers
@@ -10,7 +11,8 @@ namespace CvApi.Helpers
             return users.Select(x => x.WithoutPassword());
         }
         public static User WithoutPassword(this User user) {
-            user.Password = null;
+            user.PasswordHash = null;
+            user.PasswordSalt = null;
             return user;
         }
     }

@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CvApi.Models;
+using CvApi.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -22,7 +18,7 @@ namespace CvApi
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ContactContext>();
+                    var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
                 }
                 catch (Exception ex)

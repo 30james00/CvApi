@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CvApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using CvApi.Entities;
+using CvApi.Helpers;
 
 namespace CvApi.Controllers
 {
@@ -15,9 +17,9 @@ namespace CvApi.Controllers
     [ApiController]
     public class ContactController : ControllerBase
     {
-        private readonly ContactContext _context;
+        private readonly DataContext _context;
 
-        public ContactController(ContactContext context)
+        public ContactController(DataContext context)
         {
             _context = context;
         }

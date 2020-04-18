@@ -14,23 +14,26 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using CvApi.Services;
+using System.Threading.Tasks;
+using AutoMapper;
 
 namespace CvApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ContactContext>(opt =>
-               opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddDbContext<DataContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));            services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -45,6 +48,20 @@ namespace CvApi
            })
            .AddJwtBearer(x =>
            {
+               x.Events = new JwtBearerEvents
+               {
+                   OnTokenValidated = context =>
+                   {
+                       var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                       var userId = int.Parse(context.Principal.Identity.Name);
+                       var user = userService.GetByID(userId);
+                       if (user == null)
+                       {
+                           context.Fail("Unauthorized");
+                       }
+                       return Task.CompletedTask;
+                   }
+               };
                x.RequireHttpsMetadata = false;
                x.SaveToken = true;
                x.TokenValidationParameters = new TokenValidationParameters
